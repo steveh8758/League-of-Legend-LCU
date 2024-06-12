@@ -18,7 +18,7 @@ assert [p.Properties_[7].Value for p in GetObject('winmgmts:').InstancesOf('Win3
 
 # Global var
 LOL_PATH = [p.Properties_[7].Value for p in GetObject('winmgmts:').InstancesOf('Win32_Process') if p.Properties_("Name").Value == "LeagueClient.exe"][0]
-# LOL_PATH = r"C:\Program Files (x86)\Garena\GAME\32775\LeagueClient\LeagueClient.exe" 
+# LOL_PATH = r"C:\Program Files (x86)\Garena\GAME\32775\LeagueClient\LeagueClient.exe"
 join_room_members = 5
 
 # DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
@@ -37,7 +37,7 @@ def c(text, pattern = '0'):
     """
     font back color
     30   40   Black
-    31   41   Red   
+    31   41   Red
     32   42   Green
     33   43   Magenta
     34   44   Blue
@@ -109,7 +109,7 @@ class EmptyListError(Exception):
 
 
 class Pic:
-    
+
     def __init__(self):
         self.squirrel_fool          = "                         .-.\n                        |/`\\\\.._\n     _..._,,--.         `\\ /.--.\\ _.-. \n  ,/'  ..:::.. \\     .._.-'/    \\` .\\/ \n /       ...:::.`\\ ,/:..| |(o)  / /o)|\n|:..   |  ..:::::'|:..  ;\\ `---'. `--'\n;::... |   .::::,/:..    .`--.   .:.`\\_\n |::.. ;  ..::'/:..   .--'    ;\\   :::.`\\\n ;::../   ..::|::.  /'          ;.  ':'.---.\n  `--|    ..::;\\:.  `\\,,,____,,,/';\\. (_)  |)\n     ;     ..::/:\\:.`\\|         ,__,/`;----'\n     `\\       ;:.. \\: `-..      `-._,/,_,/\n       \\      ;:.   ). `\\ `>     _:\\\n        `\\,  ;:..    \\ \\ _>     >'"
         self.squirrel_mad           = '              ___                     \n        .-""""   ".                   \n       /         __\'-.                \n      ;      ..sssSSSS;               \n      ;   ;           ;               \n       \'.\'  ..sssSSSSSS;              \n       ;        """"""";              \n      ;    ...ssssSSSSS;              \n      ;          """""";              \n      ;               ;               \n      ;     ....sssSS/                \n      ;          """/                 \n       ;          .\'                  \n       ;    .-""""-.                  \n        \'-.\'  _..ssS,                 \n        .\'  ""  _..sSs                \n       /__    ""  _.sSS.              \n     .-"" `-.   ___     ; _           \n    /_..gg$$$pp\'___`.   .\' `>.        \n  ,s$$$$$$$$$B;"   `;"";  .\' ;        \n :$$$$$$$$$$P"`._():   `-`_O.\'        \n:$$$$$$$$$P              \'   `-.      \n$$$$$$$$$"    _,,-.       :     ;     \n$$$$$$$$!b.._g$$$$$$-.     ;    `.    \n:$$$$$$$$$$$$$$$$$$P j\\    :_.._/     \n T$$$$$$$$$$$$$$$$P  | :    ;         \n  "T$$$$$$$$$$$$P";  ;_;    :         \n    "^T$$$$$$P^"; : //:   __!         \n        | |     : ; `.: .mMMM:        \n        ) :_    ) \'-.   \'MMMP\'        \n        `.i_;I  \'-._i.\''
@@ -120,7 +120,7 @@ class Pic:
         self.noob                   = '\n         ｜/／\n\u3000\u3000\u3000／￣￣￣＼\n\u3000 \u3000/ ⊙ \u3000\u3000\u3000\\\n\u3000∠︳\u3000\u3000\u3000\u3000   \\\n\u3000\u3000︳\u3000\u3000\u3000＿＿＿＼＿\n\u3000 \u3000\\\u3000\u3000（＿＿／ _／\n\u3000\u3000\u3000＼\u3000\u3000\u3000\u3000＿＞ 菜雞 哈哈\n\u3000\u3000\u3000\u3000爪︶︶爪'
 
 class OPGG:
-    
+
     def __init__(self, summoners_list):
         self.headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36"}
         self.url_find = r"https://www.op.gg/summoners/tw/{summoner_name}"
@@ -139,12 +139,12 @@ class OPGG:
                             'recent_most_gameplay_type': None,
                             'consecutive_win-lose': None,
             }
-    
+
         win_rate_list = []
         recent_most_tier_list = []
         kda_average_dict = {'k':0, 'd':0, 'a':0, 'count':0}
         recent_most_gameplay_type_list = []
-    
+
         for i in data:
             win_rate_list.append(get_dict(i, ['myData', 'stats', 'result']))
             recent_most_tier_list.append(get_dict(i, ['average_tier_info', 'tier']))
@@ -163,14 +163,14 @@ class OPGG:
                         f.write(str(data))
                         raise
             recent_most_gameplay_type_list.append(get_dict(i, ['queue_info', 'game_type']))
-        
+
         summoner_info['summoner_name'] = get_dict(data[0], ['myData', 'summoner', 'name'])
         summoner_info['win_rate'] = f"{win_rate_list.count('WIN')/len(win_rate_list)*100.0:.1f}"
         summoner_info['recent_most_tier'] = find_list_most_frequent_strs(recent_most_tier_list)
         summoner_info['kda_average'] = f"{kda_average_dict['k']/kda_average_dict['count']:.1f}/{kda_average_dict['d']/kda_average_dict['count']:.1f}/{kda_average_dict['a']/kda_average_dict['count']:.1f}"
         summoner_info['recent_most_gameplay_type'] = find_list_most_frequent_strs(recent_most_gameplay_type_list)
         summoner_info['consecutive_win-lose'] = find_consecutive_value(win_rate_list)
-        
+
         return summoner_info
 
     def parse_web_summoner_played_champions(self, summoner_id, season_id):
@@ -182,7 +182,7 @@ class OPGG:
             champ_played_list = get_dict(json, ['data', 'champion_stats'])
             norm_ranked_dict[json_game_type] = champ_played_list
         return norm_ranked_dict
-            
+
     def get_opgg_summoner_info(self, summoner_name):
         response = requests.get(self.url_find.format(summoner_name=summoner_name), headers=self.headers)
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -199,18 +199,18 @@ class OPGG:
             current_tier = "UNRANKED"
             pass
         summoner_id = get_dict(json, ['props', 'pageProps', 'data', 'summoner_id'])
-        
+
         summoner_info = self.parse_webs_summoner_info(data, summoner_id)
         summoner_info['current_tier'] = current_tier
         summoner_info['champs_played'] = self.parse_web_summoner_played_champions(summoner_id, season_id)
         # print(f"{summoner_info = }")
         return summoner_info
-    
+
     def set_summoners_dict(self):
         for i in self.summoners_list:
             # print("key: {i}, value: {self.get_opgg_summoner_info(i)}") # debug
             self.summoners_dict[i] = self.get_opgg_summoner_info(i)
-    
+
     def get_champ_played_res(self, summoner_name, champion_id):
         rt = []
         for k,v in self.summoners_dict[summoner_name]["champs_played"].items():
@@ -221,7 +221,7 @@ class OPGG:
                         win_total = int(get_dict(i, ['win']))
                         rt.append({"type": k, "played_total": played_total, "win_rate": f"{(win_total/played_total)*100.0:.1f}"})
         return rt
-        
+
     def __str__(self):
         rt = ""
         for i in self.summoners_dict:
@@ -245,7 +245,7 @@ class DDragon:
                 print(f'{c("Download JSON(DDragon) file Done!", "42;4")}')
         self.ver               =  data['v']
         self.language          =  data['l']
-        self.cdn               =  data['cdn']        
+        self.cdn               =  data['cdn']
 
     def get_versions(self):
         """
@@ -253,7 +253,7 @@ class DDragon:
         return : List
         """
         return requests.get(self.cdn.strip('cdn') + r"api/versions.json").json()
-    
+
     def get_champions(self, ver = None):
         """
         it will return all champions in given version
@@ -279,7 +279,7 @@ class DDragon:
 
 
 class LeagueClient:
-    
+
     def __init__(self):
         global LOL_PATH
         with open(LOL_PATH.rstrip("LeagueClient.exe") + 'lockfile', 'r') as f:
@@ -294,7 +294,7 @@ class LeagueClient:
             self.url_front     =  f"{self.method}://{self.host}:{self.port}"
             self.headers       =  {'Accept' : 'application/json', 'Authorization' : self.authorization}
             self.ver           =  [Dispatch("Scripting.FileSystemObject").GetFileVersion(LOL_PATH)][0]
-            # ddragon        
+            # ddragon
             self.champions     =  DDragon(self.ver).get_champions()
             # OPGG
             self.OPGG          =  None
@@ -327,13 +327,13 @@ class LeagueClient:
         except:
             rt = ""
         return rt
-    
+
     def get_gameflow(self):
         """
         flows = ['"None"'      ,  '"Lobby"'          , '"Matchmaking"',
                  '"ReadyCheck"',  '"ChampSelect"'    , '"InProgress"' ,
                  '"Reconnect"' ,  '"WaitingForStats"', '"EndOfGame"'   ]
-        
+
         return status as a str
         return : Str
         """
@@ -373,7 +373,7 @@ class LeagueClient:
         for i in range(len(perk_js)):
             perks[int(perk_js[i]['id'])] = perk_js[i]['name']
         return dict([(i,perks[i]) for i in sorted(perks.keys())])
-    
+
     def get_current_perks(self):
         perks = loads(self.request('get', '/lol-perks/v1/currentpage'))
         [perks.pop(key, None) for key in ["autoModifiedSelections", "id", "isDeletable", "isEditable", "lastModified", "order", "isEditable"]]
@@ -609,7 +609,7 @@ class LeagueClient:
         json = loads(self.request("get", f"/lol-summoner/v1/summoners/{str(summonerId)}"))
         # print(json)
         return get_dict(json, ['internalName']) # get_dict(json, ['displayName'])
-        
+
     def get_room_summoner_name(self):
         json = loads(self.request("get", r"/lol-champ-select/v1/session"))
         summoner_names = []
@@ -630,7 +630,7 @@ class LeagueClient:
                 break
             except:
                 pass
-        
+
     def parse_OPGG_res(self):
         res = []
         res.append(f"\n{'*'*40}")
@@ -652,7 +652,7 @@ class LeagueClient:
                 res.append(f"{'-'*80}")
         res.append(f"{'*'*40}")
         for i in res:
-            
+
             self.chat(i)
             print(i)
 
@@ -688,16 +688,16 @@ class LeagueClient:
         args include
             lane     = 'message or lane'(str)
             UI       = 'show' 'minimize'(str)
-            champion = ['champ id'(str or int),'lock or not'(bool)] 
+            champion = ['champ id'(str or int),'lock or not'(bool)]
             perks    = 'js'(dictionay)
-            
-        if use default settings it will 
+
+        if use default settings it will
             1. auto pick top lane
             2. show UI in champ selection
             3. pick WUKONG without lock
             4. set summoner spells (D Flash, F Ignite)
             5. set runes Conqueror
-            
+
         return : null
         """
         default_settings = {
@@ -806,7 +806,7 @@ class LeagueClient:
             return 1
         except:
             return 2
-    
+
     def test(self):
         global join_room_members
         join_room_members = 1
@@ -820,7 +820,7 @@ if __name__ == '__main__':
     if debug:
         lol.test()
     # 娜菲芮 - 死亡電刑
-    LeagueClient().find_match(lane = 'MID', champion = [950, False], spells = [4, 14], perks = {'current': True, 'isActive': True, 'isValid': True, 'name': '娜菲芮 - 死亡電刑', 'primaryStyleId': 8100, 'selectedPerkIds': [8112, 8143, 8138, 8135, 8009, 8014, 5008, 5008, 5003], 'subStyleId': 8000})
+    # LeagueClient().find_match(lane = 'MID', champion = [950, False], spells = [4, 14], perks = {'current': True, 'isActive': True, 'isValid': True, 'name': '娜菲芮 - 死亡電刑', 'primaryStyleId': 8100, 'selectedPerkIds': [8112, 8143, 8138, 8135, 8009, 8014, 5008, 5008, 5003], 'subStyleId': 8000})
     # 悟空 - 征服者
     # LeagueClient().find_match()
     # 烏迪爾 - 刀鋒之雹
@@ -837,7 +837,7 @@ if __name__ == '__main__':
     # LeagueClient().find_match(lane = 'SUP', champion = [22, False], spells = [4, 3], perks = {'current': True, 'isActive': True, 'isValid': True, 'name': '艾希 - 奧術彗星', 'primaryStyleId': 8200, 'selectedPerkIds': [8229, 8226, 8210, 8237, 8009, 8014, 5007, 5008, 5002], 'subStyleId': 8000})
     # 雷歐娜 - 裂地衝擊
     # LeagueClient().find_match(lane = 'SUP', champion = [89, False], spells = [4, 14], perks = {'current': True, 'isActive': True, 'isValid': True, 'name': '雷歐娜 - 裂地衝擊', 'primaryStyleId': 8400, 'selectedPerkIds': [8439, 8463, 8473, 8242, 8345, 8347, 5007, 5002, 5001], 'subStyleId': 8300})
-    # 索拉卡 - 召喚艾莉 
+    # 索拉卡 - 召喚艾莉
     # LeagueClient().find_match(lane = 'SUP', champion = [16, False], spells = [4, 7], perks = {'current': True, 'isActive': True, 'isValid': True, 'name': '索拉卡 - 召喚艾莉', 'primaryStyleId': 8200, 'selectedPerkIds': [8214, 8226, 8210, 8237, 8453, 8463, 5008, 5008, 5002], 'subStyleId': 8400})
     # 提摩 - 召喚艾莉
     # LeagueClient().find_match(lane = 'TOP', champion = [17, False], spells = [4, 14], perks = {'current': True, 'isActive': True, 'isTemporary': False, 'isValid': True, 'name': '提摩 - 召喚艾莉', 'primaryStyleId': 8200, 'selectedPerkIds': [8214, 8275, 8234, 8237, 8014, 9103, 5005, 5008, 5002], 'subStyleId': 8000})
@@ -871,5 +871,3 @@ if __name__ == '__main__':
 #   "progress": "14"
 # }
 #     lol.request('post', '/lol-marketing-preferences/v1/partition/sfm2023', json=json)
- 
-    
