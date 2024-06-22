@@ -8,17 +8,20 @@ from bs4 import BeautifulSoup
 from msvcrt import getch, kbhit
 from collections import Counter
 from json import loads, dumps, dump
-from win32com.client import GetObject, Dispatch
+from win32com.client import Dispatch
+from psutil import process_iter
 # disable alert
 import requests.packages.urllib3 as alert
 alert.disable_warnings()
 
 # detect and locate exe path
-assert [p.Properties_[7].Value for p in GetObject('winmgmts:').InstancesOf('Win32_Process') if p.Properties_("Name").Value == "LeagueClient.exe"], "START CLIENT FIRST"
+assert [proc.exe() for proc in process_iter(['pid', 'name', 'exe']) if proc.name() == "LeagueClient.exe"][0], "START CLIENT FIRST"
+
 
 # Global var
-LOL_PATH = [p.Properties_[7].Value for p in GetObject('winmgmts:').InstancesOf('Win32_Process') if p.Properties_("Name").Value == "LeagueClient.exe"][0]
-# LOL_PATH = r"C:\Program Files (x86)\Garena\GAME\32775\LeagueClient\LeagueClient.exe"
+# LOL_PATH = [p.Properties_[7].Value for p in GetObject('winmgmts:').InstancesOf('Win32_Process') if p.Properties_("Name").Value == "LeagueClient.exe"][0]
+LOL_PATH = [proc.exe() for proc in process_iter(['pid', 'name', 'exe']) if proc.name() == "LeagueClient.exe"][0]
+# LOL_PATH = r"C:\Riot Games\League of Legends"
 join_room_members = 5
 
 # DEBUGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
@@ -282,7 +285,7 @@ class LeagueClient:
 
     def __init__(self):
         global LOL_PATH
-        with open(LOL_PATH.rstrip("LeagueClient.exe") + 'lockfile', 'r') as f:
+        with open(LOL_PATH.rstrip("LeagueClient.exe") + r'\lockfile', 'r') as f:
             lock = f.read()
             data = lock.split(':')
             self.info          =  dict(zip(["Name", "PID", "Port", "Authorization token", "Connecton method"],data))

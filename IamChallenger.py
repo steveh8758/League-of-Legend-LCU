@@ -3,8 +3,11 @@
 Created on Fri May 12 23:50:24 2023
 
 @author: Steven
-"""
 
+Package it.
+    To package this file, you need to install PyInstaller in the environment where it can be executed and then repackage it.
+    Remember to include the '--hidden-import=win32com.client --hidden-import=psutil' flags for any required libraries.
+"""
 
 from json import loads
 import sys
@@ -12,16 +15,16 @@ from os import system as cmd
 import requests
 from base64 import b64encode
 from json import loads
-from win32com.client import GetObject, Dispatch
+from psutil import process_iter
 # disable alert
 import requests.packages.urllib3 as alert
 alert.disable_warnings()
 
 # detect and locate exe path
-assert [p.Properties_[7].Value for p in GetObject('winmgmts:').InstancesOf('Win32_Process') if p.Properties_("Name").Value == "LeagueClient.exe"], "START CLIENT FIRST"
+assert [proc.exe() for proc in process_iter(['pid', 'name', 'exe']) if proc.name() == "LeagueClient.exe"][0], "START CLIENT FIRST"
 
 # Global var
-LOL_PATH = [p.Properties_[7].Value for p in GetObject('winmgmts:').InstancesOf('Win32_Process') if p.Properties_("Name").Value == "LeagueClient.exe"][0]
+LOL_PATH = [proc.exe() for proc in process_iter(['pid', 'name', 'exe']) if proc.name() == "LeagueClient.exe"][0]
 
 def End():
     cmd('cls')
@@ -31,7 +34,7 @@ def End():
     return sys.exit(0)
 
 class LeagueClient:
-    
+
     def __init__(self):
         global LOL_PATH
         with open(LOL_PATH.rstrip("LeagueClient.exe") + 'lockfile', 'r') as f:
@@ -45,9 +48,7 @@ class LeagueClient:
             self.authorization =  'Basic ' + b64encode(('riot:' + data[3]).encode(encoding = 'utf-8')).decode('utf-8')
             self.url_front     =  f"{self.method}://{self.host}:{self.port}"
             self.headers       =  {'Accept' : 'application/json', 'Authorization' : self.authorization}
-            self.ver           =  [Dispatch("Scripting.FileSystemObject").GetFileVersion(LOL_PATH)][0]
 
-            
     def request(self, mode, method_, json = {}):
         return eval(r"requests.%s"%mode)(url = self.url_front + method_, headers = self.headers, verify = False, json = json).text
 
